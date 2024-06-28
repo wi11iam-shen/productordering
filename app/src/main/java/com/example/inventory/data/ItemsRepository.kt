@@ -15,18 +15,25 @@
  */
 
 package com.example.inventory.data
+
 import kotlinx.coroutines.flow.Flow
+
 /**
  * Repository that provides insert, update, delete, and retrieve of [Item] from a given data source.
  */
-interface ItemsRepository{
-    fun getAllItemsStream() : Flow<List<Item>>
+interface ItemsRepository {
+    // retrieve all items from given data source
+    fun getAllItemsStream(): Flow<List<Item>>
 
-    fun getItemStream(id: Int): Flow<Item>
+    // retrieve an item from given data source that matches with the [id]
+    fun getItemStream(id: Int): Flow<Item?>
 
+    // insert item in data source
     suspend fun insertItem(item: Item)
 
+    // delete item from data source
     suspend fun deleteItem(item: Item)
 
+    // update item in data source
     suspend fun updateItem(item: Item)
 }

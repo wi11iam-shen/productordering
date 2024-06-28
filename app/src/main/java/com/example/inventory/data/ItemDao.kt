@@ -14,12 +14,12 @@ interface ItemDao {
     suspend fun insert(item: Item)
 
     @Update
-    suspend fun update(item:Item)
+    suspend fun update(item: Item)
 
     @Delete
-    suspend fun delete(item:Item)
+    suspend fun delete(item: Item)
 
-    @Query("SELECT * FROM items where id = :id")
+    @Query("SELECT * FROM items WHERE id = :id")
     fun getItem(id: Int): Flow<Item>
 
     @Query("SELECT * FROM items ORDER BY name ASC")
