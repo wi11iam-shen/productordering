@@ -107,6 +107,7 @@ fun HomeScreen(
         HomeBody(
             itemList = homeUiState.itemList,
             onItemClick = navigateToItemUpdate,
+            searchClick = navigateToSearchItem,
             modifier = modifier.fillMaxSize(),
             contentPadding = innerPadding,
             viewModel = viewModel
@@ -117,10 +118,12 @@ fun HomeScreen(
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun HomeBody(
+
     itemList: List<Item>,
     onItemClick: (Int) -> Unit,
     modifier: Modifier = Modifier,
     contentPadding: PaddingValues = PaddingValues(0.dp),
+    searchClick: (Int) -> Unit,
     viewModel: HomeViewModel
 ) {
 
@@ -131,11 +134,13 @@ private fun HomeBody(
         modifier = modifier,
     ) {
     SearchBar(query = text, onQueryChange = {text = it
-                                            viewModel.searchItem(text)}, onSearch = {expanded = false}, active = expanded , onActiveChange = {}) {
+                                            viewModel.searchItem(text)},
+        onSearch = {expanded = false}, active = expanded , onActiveChange = {expanded= it},
+        placeholder= {Text(text = "Search")}, modifier = Modifier.padding(contentPadding)) {
         LazyColumn{
             items(itemList){
                 item ->
-                Text(text = item.name, modifier=  Modifier.clickable{onItemClick(item.id)})
+                Text(text = item.name, modifier=  Modifier.clickable{searchClick(item.id)})
             }
         }
     }
@@ -217,7 +222,7 @@ fun HomeBodyPreview() {
     InventoryTheme {
         HomeBody(listOf(
             Item(1, "Game", 100.0, 20), Item(2, "Pen", 200.0, 30), Item(3, "TV", 300.0, 50)
-        ), onItemClick = {}, viewModel = viewModel())
+        ), onItemClick = {}, viewModel = viewModel(), searchClick = {})
     }
 }
 
@@ -225,7 +230,7 @@ fun HomeBodyPreview() {
 @Composable
 fun HomeBodyEmptyListPreview() {
     InventoryTheme {
-        HomeBody(itemList = listOf(), onItemClick = {}, viewModel = viewModel())
+        HomeBody(itemList = listOf(), onItemClick = {}, viewModel = viewModel(), searchClick = {})
     }
 }
 
