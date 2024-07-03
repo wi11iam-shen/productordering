@@ -31,7 +31,8 @@ import com.example.inventory.ui.item.ItemEditDestination
 import com.example.inventory.ui.item.ItemEditScreen
 import com.example.inventory.ui.item.ItemEntryDestination
 import com.example.inventory.ui.item.ItemEntryScreen
-
+import com.example.inventory.ui.productsell.ProductSellDestination
+import com.example.inventory.ui.productsell.ProductSellScreen
 /**
  * Provides Navigation graph for the application.
  */
@@ -50,7 +51,8 @@ fun InventoryNavHost(
                 navigateToItemEntry = { navController.navigate(ItemEntryDestination.route) },
                 navigateToItemUpdate = {
                     navController.navigate("${ItemDetailsDestination.route}/${it}")
-                }
+                },
+                navigateToSearchItem = {navController.navigate("${ProductSellDestination.route}/${it}")}
             )
         }
         composable(route = ItemEntryDestination.route) {
@@ -81,5 +83,15 @@ fun InventoryNavHost(
                 onNavigateUp = { navController.navigateUp() }
             )
         }
+        composable(
+            route = ProductSellDestination.routeWithArgs,
+            arguments = listOf(navArgument(ProductSellDestination.itemIdArg){
+                type = NavType.IntType
+            })
+        ){
+            ProductSellScreen(navigateBack = { navController.popBackStack() }, navigateSummary = {  })
+        }
     }
 }
+
+

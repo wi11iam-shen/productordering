@@ -63,10 +63,20 @@ class ItemDetailsViewModel(
             }
         }
     }
+    suspend fun reduceQuantity(amount: Int){
+        viewModelScope.launch{
+            val currentItem = uiState.value.itemDetails.toItem()
+            if(currentItem.quantity > amount && currentItem.quantity > 0){
+                itemsRepository.updateItem(currentItem.copy(quantity = currentItem.quantity - amount))
+            }
+        }
 
+    }
     suspend fun deleteItem() {
         itemsRepository.deleteItem(uiState.value.itemDetails.toItem())
     }
+
+
 
 }
 

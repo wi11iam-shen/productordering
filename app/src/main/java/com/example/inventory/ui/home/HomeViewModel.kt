@@ -16,12 +16,16 @@
 
 package com.example.inventory.ui.home
 
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.inventory.data.Item
 import com.example.inventory.data.ItemsRepository
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 
@@ -39,6 +43,25 @@ class HomeViewModel(itemsRepository: ItemsRepository) : ViewModel() {
             started = SharingStarted.WhileSubscribed(TIMEOUT_MILLIS),
             initialValue = HomeUiState()
         )
+
+    fun searchItem(query:String): Int {
+        var findMatch = homeUiState.value.itemList.find{
+            item -> item.name == query
+        }
+        var findId = homeUiState.value.itemList.find{
+            item -> item.id == query.toInt()
+        }
+        if(findMatch != null){
+            return findMatch.id
+        } else if(findId != null){
+            return findId.id
+        }
+        else{
+            return -1
+        }
+    }
+
+
 }
 
 /**
