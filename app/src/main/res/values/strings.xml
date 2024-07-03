@@ -35,4 +35,8 @@
     <string name="sell">Sell</string>
     <string name="yes">Yes</string>
     <string name="required_fields">*required fields</string>
+    <string name= "product_sell">Order</string>
+    <string name= "summary">Summary of Order</string>
+    <string name ="ordered">Amount ordered</string>
+    <string name = "total">Total Cost</string>
 </resources>

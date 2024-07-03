@@ -49,11 +49,12 @@ class HomeViewModel(itemsRepository: ItemsRepository) : ViewModel() {
             item -> item.name == query
         }
         var findId = homeUiState.value.itemList.find{
-            item -> item.id == query.toInt()
+            item -> item.id.toString() == query
         }
         if(findMatch != null){
             return findMatch.id
-        } else if(findId != null){
+        }
+        if(findId != null){
             return findId.id
         }
         else{

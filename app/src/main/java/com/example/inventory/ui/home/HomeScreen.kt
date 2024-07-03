@@ -134,15 +134,13 @@ private fun HomeBody(
         modifier = modifier,
     ) {
     SearchBar(query = text, onQueryChange = {text = it
-                                            viewModel.searchItem(text)},
-        onSearch = {expanded = false}, active = expanded , onActiveChange = {expanded= it},
+                                           },
+        onSearch = {expanded = false
+            var itemid = viewModel.searchItem(text)
+            if(itemid != -1){
+            searchClick(itemid)}
+                   }, active = expanded , onActiveChange = {expanded= it},
         placeholder= {Text(text = "Search")}, modifier = Modifier.padding(contentPadding)) {
-        LazyColumn{
-            items(itemList){
-                item ->
-                Text(text = item.name, modifier=  Modifier.clickable{searchClick(item.id)})
-            }
-        }
     }
         if (itemList.isEmpty()) {
             Text(
@@ -213,33 +211,5 @@ private fun InventoryItem(
                 style = MaterialTheme.typography.titleMedium
             )
         }
-    }
-}
-
-@Preview(showBackground = true)
-@Composable
-fun HomeBodyPreview() {
-    InventoryTheme {
-        HomeBody(listOf(
-            Item(1, "Game", 100.0, 20), Item(2, "Pen", 200.0, 30), Item(3, "TV", 300.0, 50)
-        ), onItemClick = {}, viewModel = viewModel(), searchClick = {})
-    }
-}
-
-@Preview(showBackground = true)
-@Composable
-fun HomeBodyEmptyListPreview() {
-    InventoryTheme {
-        HomeBody(itemList = listOf(), onItemClick = {}, viewModel = viewModel(), searchClick = {})
-    }
-}
-
-@Preview(showBackground = true)
-@Composable
-fun InventoryItemPreview() {
-    InventoryTheme {
-        InventoryItem(
-            Item(1, "Game", 100.0, 20),
-        )
     }
 }

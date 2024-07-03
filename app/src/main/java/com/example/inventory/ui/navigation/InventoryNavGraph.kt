@@ -23,6 +23,8 @@ import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
+import com.example.inventory.ui.Summary.SummaryDestination
+import com.example.inventory.ui.Summary.SummaryScreen
 import com.example.inventory.ui.home.HomeDestination
 import com.example.inventory.ui.home.HomeScreen
 import com.example.inventory.ui.item.ItemDetailsDestination
@@ -87,10 +89,19 @@ fun InventoryNavHost(
             route = ProductSellDestination.routeWithArgs,
             arguments = listOf(navArgument(ProductSellDestination.itemIdArg){
                 type = NavType.IntType
+            },)
+        ){
+            ProductSellScreen(navigateBack = { navController.popBackStack() }, navigateSummary = {navController.navigate("${SummaryDestination.route}/$it")})
+        }
+        composable(
+            route = SummaryDestination.routeWithArgs,
+            arguments = listOf(navArgument(SummaryDestination.itemIdArg){
+                type = NavType.IntType
             })
         ){
-            ProductSellScreen(navigateBack = { navController.popBackStack() }, navigateSummary = {  })
+            SummaryScreen(navigateHome = {navController.popBackStack(route= HomeDestination.route, inclusive = false)}, navigateBack = {navController.popBackStack()})
         }
+
     }
 }
 
